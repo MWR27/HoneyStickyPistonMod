@@ -35,7 +35,7 @@ public class HoneyStickyPistonMod {
 	
 	@SubscribeEvent
 	public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
-			event.getRegistry().register(new BlockItem(ModBlocks.HONEY_STICKY_PISTON.get(), new Item.Properties().group(ItemGroup.REDSTONE))
+			event.getRegistry().register(new BlockItem(ModBlocks.HONEY_STICKY_PISTON.get(), new Item.Properties().tab(ItemGroup.TAB_REDSTONE))
 					.setRegistryName(ModBlocks.HONEY_STICKY_PISTON.get().getRegistryName()));
 	}
 }

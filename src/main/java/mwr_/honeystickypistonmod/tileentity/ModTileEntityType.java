@@ -12,5 +12,5 @@ public class ModTileEntityType {
 			.create(ForgeRegistries.TILE_ENTITIES, HoneyStickyPistonMod.MOD_ID);
 
 	public static final RegistryObject<TileEntityType<HoneyStickyPistonTileEntity>> HONEY_STICKY_PISTON = TILE_ENTITIES
-			.register("honey_sticky_piston", () -> TileEntityType.Builder.create(HoneyStickyPistonTileEntity::new, Blocks.MOVING_PISTON).build(null));
+			.register("honey_sticky_piston", () -> TileEntityType.Builder.of(HoneyStickyPistonTileEntity::new, Blocks.MOVING_PISTON).build(null));
 }
