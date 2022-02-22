@@ -1,0 +1,50 @@
+{
+  "variants": {
+    "facing=down,short=false": {
+      "model": "honeystickypistonmod:block/piston_head_sticky_honey",
+      "x": 90
+    },
+    "facing=down,short=true": {
+      "model": "honeystickypistonmod:block/piston_head_short_sticky_honey",
+      "x": 90
+    },
+    "facing=east,short=false": {
+      "model": "honeystickypistonmod:block/piston_head_sticky_honey",
+      "y": 90
+    },
+    "facing=east,short=true": {
+      "model": "honeystickypistonmod:block/piston_head_short_sticky_honey",
+      "y": 90
+    },
+    "facing=north,short=false": {
+      "model": "honeystickypistonmod:block/piston_head_sticky_honey"
+    },
+    "facing=north,short=true": {
+      "model": "honeystickypistonmod:block/piston_head_short_sticky_honey"
+    },
+    "facing=south,short=false": {
+      "model": "honeystickypistonmod:block/piston_head_sticky_honey",
+      "y": 180
+    },
+    "facing=south,short=true": {
+      "model": "honeystickypistonmod:block/piston_head_short_sticky_honey",
+      "y": 180
+    },
+    "facing=up,short=false": {
+      "model": "honeystickypistonmod:block/piston_head_sticky_honey",
+      "x": 270
+    },
+    "facing=up,short=true": {
+      "model": "honeystickypistonmod:block/piston_head_short_sticky_honey",
+      "x": 270
+    },
+    "facing=west,short=false": {
+      "model": "honeystickypistonmod:block/piston_head_sticky_honey",
+      "y": 270
+    },
+    "facing=west,short=true": {
+      "model": "honeystickypistonmod:block/piston_head_short_sticky_honey",
+      "y": 270
+    }
+  }
+}
