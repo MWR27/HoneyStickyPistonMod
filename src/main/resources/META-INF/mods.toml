@@ -1,12 +1,12 @@
 modLoader="javafml"
-loaderVersion="[36,)"
+loaderVersion="[37,)"
 license="MIT"
 [[mods]]
 modId="honeystickypistonmod"
 version="${file.jarVersion}"
 displayName="Honey Sticky Piston Mod"
 logoFile="examplemod.png"
-credits="Thanks to Cy4 and their community for teaching me how to mod and samjviana for a helpful reference!"
+credits="Thanks to Cy4 and their community for teaching me how to mod, samjviana for a helpful reference, and Firestorm2173 for the idea!"
 authors="MWR_"
 description='''
 A new sticky piston that you can craft with honey!
@@ -14,12 +14,12 @@ A new sticky piston that you can craft with honey!
 [[dependencies.myfirstmod]]
     modId="forge"
     mandatory=true
-    versionRange="[36,)"
+    versionRange="[37,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.myfirstmod]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.5,1.17)"
+    versionRange="[1.17.1,)"
     ordering="NONE"
     side="BOTH"
