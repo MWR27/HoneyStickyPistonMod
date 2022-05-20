@@ -6,7 +6,7 @@ modId="honeystickypistonmod"
 version="${file.jarVersion}"
 displayName="Honey Sticky Piston Mod"
 logoFile="examplemod.png"
-credits="Thanks to Cy4 and their community for teaching me how to mod, samjviana for a helpful reference, and Firestorm2173 for the idea!"
+credits="Thanks to Cy4 and their community for teaching me how to mod and samjviana for a helpful reference!"
 authors="MWR_"
 description='''
 A new sticky piston that you can craft with honey!
