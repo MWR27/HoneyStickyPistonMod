@@ -33,7 +33,7 @@ public class HoneyStickyPistonMovingBlockEntity extends BlockEntity {
    private static final int TICKS_TO_EXTEND = 2;
    private static final double PUSH_OFFSET = 0.01D;
    public static final double TICK_MOVEMENT = 0.51D;
-   private BlockState movedState;
+   private BlockState movedState = Blocks.AIR.defaultBlockState();
    private Direction direction;
    private boolean extending;
    private boolean isSourcePiston;
@@ -58,7 +58,7 @@ public class HoneyStickyPistonMovingBlockEntity extends BlockEntity {
    }
 
    public CompoundTag getUpdateTag() {
-      return this.save(new CompoundTag());
+      return this.saveWithoutMetadata();
    }
 
    public boolean isExtending() {
@@ -319,15 +319,14 @@ public class HoneyStickyPistonMovingBlockEntity extends BlockEntity {
       this.isSourcePiston = p_155930_.getBoolean("source");
    }
 
-   public CompoundTag save(CompoundTag p_60377_) {
-      super.save(p_60377_);
-      p_60377_.put("blockState", NbtUtils.writeBlockState(this.movedState));
-      p_60377_.putInt("facing", this.direction.get3DDataValue());
-      p_60377_.putFloat("progress", this.progressO);
-      p_60377_.putBoolean("extending", this.extending);
-      p_60377_.putBoolean("source", this.isSourcePiston);
-      return p_60377_;
-   }
+   protected void saveAdditional(CompoundTag p_187530_) {
+      super.saveAdditional(p_187530_);
+      p_187530_.put("blockState", NbtUtils.writeBlockState(this.movedState));
+      p_187530_.putInt("facing", this.direction.get3DDataValue());
+      p_187530_.putFloat("progress", this.progressO);
+      p_187530_.putBoolean("extending", this.extending);
+      p_187530_.putBoolean("source", this.isSourcePiston);
+	   }
 
    public VoxelShape getCollisionShape(BlockGetter p_60357_, BlockPos p_60358_) {
       VoxelShape voxelshape;
