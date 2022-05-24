@@ -11,9 +11,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(modid = HoneyStickyPistonMod.MOD_ID, bus = Bus.MOD, value = Dist.CLIENT)
 public class ClientEventBusSubscriber {
-
-	@SubscribeEvent
-	public static void clientSetup(FMLClientSetupEvent event) {
-		ClientRegistry.bindTileEntityRenderer(ModTileEntityType.HONEY_STICKY_PISTON.get(), HoneyStickyPistonTileEntityRenderer::new);
+   @SubscribeEvent
+   public static void clientSetup(FMLClientSetupEvent event) {
+      ClientRegistry.bindTileEntityRenderer(ModTileEntityType.HONEY_STICKY_PISTON.get(), HoneyStickyPistonTileEntityRenderer::new);
 	}
 }

@@ -2,13 +2,12 @@ package mwr_.honeystickypistonmod.tileentity;
 
 import java.util.Iterator;
 import java.util.List;
-
-import mwr_.honeystickypistonmod.block.HoneyStickyPistonBlock;
-import mwr_.honeystickypistonmod.block.HoneyStickyPistonHeadBlock;
-import mwr_.honeystickypistonmod.block.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import mwr_.honeystickypistonmod.block.ModBlocks;
+import mwr_.honeystickypistonmod.block.HoneyStickyPistonBlock;
+import mwr_.honeystickypistonmod.block.HoneyStickyPistonHeadBlock;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
@@ -48,15 +47,14 @@ public class HoneyStickyPistonTileEntity extends TileEntity implements ITickable
       super(ModTileEntityType.HONEY_STICKY_PISTON.get());
    }
    
-   public HoneyStickyPistonTileEntity(BlockState movedStateIn, Direction directionIn, boolean extendingIn, boolean isSourcePistonIn) {
+   public HoneyStickyPistonTileEntity(BlockState p_i45665_1_, Direction p_i45665_2_, boolean p_i45665_3_, boolean p_i45665_4_) {
       this();
-      this.movedState = movedStateIn;
-      this.direction = directionIn;
-      this.extending = extendingIn;
-      this.isSourcePiston = isSourcePistonIn;
+      this.movedState = p_i45665_1_;
+      this.direction = p_i45665_2_;
+      this.extending = p_i45665_3_;
+      this.isSourcePiston = p_i45665_4_;
    }
 
-   @Override
    public CompoundNBT getUpdateTag() {
       return this.save(new CompoundNBT());
    }
@@ -73,27 +71,27 @@ public class HoneyStickyPistonTileEntity extends TileEntity implements ITickable
       return this.isSourcePiston;
    }
 
-   public float getProgress(float ticks) {
-      if (ticks > 1.0F) {
-         ticks = 1.0F;
+   public float getProgress(float p_145860_1_) {
+      if (p_145860_1_ > 1.0F) {
+         p_145860_1_ = 1.0F;
       }
 
-      return MathHelper.lerp(ticks, this.progressO, this.progress);
+      return MathHelper.lerp(p_145860_1_, this.progressO, this.progress);
    }
 
    @OnlyIn(Dist.CLIENT)
-   public float getXOff(float ticks) {
-      return (float)this.direction.getStepX() * this.getExtendedProgress(this.getProgress(ticks));
+   public float getXOff(float p_174929_1_) {
+      return (float)this.direction.getStepX() * this.getExtendedProgress(this.getProgress(p_174929_1_));
    }
 
    @OnlyIn(Dist.CLIENT)
-   public float getYOff(float ticks) {
-      return (float)this.direction.getStepY() * this.getExtendedProgress(this.getProgress(ticks));
+   public float getYOff(float p_174928_1_) {
+      return (float)this.direction.getStepY() * this.getExtendedProgress(this.getProgress(p_174928_1_));
    }
 
    @OnlyIn(Dist.CLIENT)
-   public float getZOff(float ticks) {
-      return (float)this.direction.getStepZ() * this.getExtendedProgress(this.getProgress(ticks));
+   public float getZOff(float p_174926_1_) {
+      return (float)this.direction.getStepZ() * this.getExtendedProgress(this.getProgress(p_174926_1_));
    }
 
    private float getExtendedProgress(float p_184320_1_) {
@@ -213,21 +211,21 @@ public class HoneyStickyPistonTileEntity extends TileEntity implements ITickable
       return this.extending ? this.direction : this.direction.getOpposite();
    }
 
-   private static double getMovement(AxisAlignedBB p_190612_0_, Direction p_190612_1_, AxisAlignedBB facing) {
+   private static double getMovement(AxisAlignedBB p_190612_0_, Direction p_190612_1_, AxisAlignedBB p_190612_2_) {
       switch(p_190612_1_) {
       case EAST:
-         return p_190612_0_.maxX - facing.minX;
+         return p_190612_0_.maxX - p_190612_2_.minX;
       case WEST:
-         return facing.maxX - p_190612_0_.minX;
+         return p_190612_2_.maxX - p_190612_0_.minX;
       case UP:
       default:
-         return p_190612_0_.maxY - facing.minY;
+         return p_190612_0_.maxY - p_190612_2_.minY;
       case DOWN:
-         return facing.maxY - p_190612_0_.minY;
+         return p_190612_2_.maxY - p_190612_0_.minY;
       case SOUTH:
-         return p_190612_0_.maxZ - facing.minZ;
+         return p_190612_0_.maxZ - p_190612_2_.minZ;
       case NORTH:
-         return facing.maxZ - p_190612_0_.minZ;
+         return p_190612_2_.maxZ - p_190612_0_.minZ;
       }
    }
 
@@ -313,26 +311,24 @@ public class HoneyStickyPistonTileEntity extends TileEntity implements ITickable
       }
    }
 
-   @Override
-   public void load(BlockState state, CompoundNBT nbt) {
-      super.load(state, nbt);
-      this.movedState = NBTUtil.readBlockState(nbt.getCompound("blockState"));
-      this.direction = Direction.from3DDataValue(nbt.getInt("facing"));
-      this.progress = nbt.getFloat("progress");
+   public void load(BlockState p_230337_1_, CompoundNBT p_230337_2_) {
+      super.load(p_230337_1_, p_230337_2_);
+      this.movedState = NBTUtil.readBlockState(p_230337_2_.getCompound("blockState"));
+      this.direction = Direction.from3DDataValue(p_230337_2_.getInt("facing"));
+      this.progress = p_230337_2_.getFloat("progress");
       this.progressO = this.progress;
-      this.extending = nbt.getBoolean("extending");
-      this.isSourcePiston = nbt.getBoolean("source");
+      this.extending = p_230337_2_.getBoolean("extending");
+      this.isSourcePiston = p_230337_2_.getBoolean("source");
    }
 
-   @Override
-   public CompoundNBT save(CompoundNBT compound) {
-      super.save(compound);
-      compound.put("blockState", NBTUtil.writeBlockState(this.movedState));
-      compound.putInt("facing", this.direction.get3DDataValue());
-      compound.putFloat("progress", this.progressO);
-      compound.putBoolean("extending", this.extending);
-      compound.putBoolean("source", this.isSourcePiston);
-      return compound;
+   public CompoundNBT save(CompoundNBT p_189515_1_) {
+      super.save(p_189515_1_);
+      p_189515_1_.put("blockState", NBTUtil.writeBlockState(this.movedState));
+      p_189515_1_.putInt("facing", this.direction.get3DDataValue());
+      p_189515_1_.putFloat("progress", this.progressO);
+      p_189515_1_.putBoolean("extending", this.extending);
+      p_189515_1_.putBoolean("source", this.isSourcePiston);
+      return p_189515_1_;
    }
 
    public VoxelShape getCollisionShape(IBlockReader p_195508_1_, BlockPos p_195508_2_) {
@@ -366,7 +362,7 @@ public class HoneyStickyPistonTileEntity extends TileEntity implements ITickable
       return this.lastTicked;
    }
 
-   @OnlyIn(Dist.CLIENT) @Override
+   @OnlyIn(Dist.CLIENT)
    public double getViewDistance() {
       return 68.0D;
    }

@@ -1,15 +1,13 @@
 package mwr_.honeystickypistonmod.block;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import mwr_.honeystickypistonmod.tileentity.HoneyStickyPistonTileEntity;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MovingPistonBlock;
 import net.minecraft.block.PistonBlock;
@@ -20,6 +18,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.PistonType;
+import mwr_.honeystickypistonmod.tileentity.HoneyStickyPistonTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
@@ -28,88 +27,86 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-import net.minecraft.block.AbstractBlock.Properties;
-
 public class HoneyStickyPistonBlock extends PistonBlock {
    private final boolean isSticky;
    
-   public HoneyStickyPistonBlock(boolean sticky, Properties properties) {
-      super(sticky, properties);
+   public HoneyStickyPistonBlock(boolean p_i48281_1_, AbstractBlock.Properties p_i48281_2_) {
+      super(p_i48281_1_, p_i48281_2_);
       this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(EXTENDED, Boolean.valueOf(false)));
-      this.isSticky = sticky;
-	}
+      this.isSticky = p_i48281_1_;
+   }
 
    @Override //Nothing edited, put in for checkIfExtend()
-   public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-      if (!worldIn.isClientSide) {
-         this.checkIfExtend(worldIn, pos, state);
+   public void setPlacedBy(World p_180633_1_, BlockPos p_180633_2_, BlockState p_180633_3_, LivingEntity p_180633_4_, ItemStack p_180633_5_) {
+      if (!p_180633_1_.isClientSide) {
+         this.checkIfExtend(p_180633_1_, p_180633_2_, p_180633_3_);
       }
 
    }
    
    @Override //Nothing edited, put in for checkIfExtend()
-   public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-      if (!worldIn.isClientSide) {
-         this.checkIfExtend(worldIn, pos, state);
+   public void neighborChanged(BlockState p_220069_1_, World p_220069_2_, BlockPos p_220069_3_, Block p_220069_4_, BlockPos p_220069_5_, boolean p_220069_6_) {
+      if (!p_220069_2_.isClientSide) {
+         this.checkIfExtend(p_220069_2_, p_220069_3_, p_220069_1_);
       }
 
    }
    
    @Override //Nothing edited, put in for checkIfExtend()
-   public void onPlace(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-      if (!oldState.is(state.getBlock())) {
-         if (!worldIn.isClientSide && worldIn.getBlockEntity(pos) == null) {
-            this.checkIfExtend(worldIn, pos, state);
+   public void onPlace(BlockState p_220082_1_, World p_220082_2_, BlockPos p_220082_3_, BlockState p_220082_4_, boolean p_220082_5_) {
+      if (!p_220082_4_.is(p_220082_1_.getBlock())) {
+         if (!p_220082_2_.isClientSide && p_220082_2_.getBlockEntity(p_220082_3_) == null) {
+            this.checkIfExtend(p_220082_2_, p_220082_3_, p_220082_1_);
          }
 
       }
    }
 
    @Override //Nothing edited, may not be necessary
-   public BlockState getStateForPlacement(BlockItemUseContext context) {
-      return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(EXTENDED, Boolean.valueOf(false));
+   public BlockState getStateForPlacement(BlockItemUseContext p_196258_1_) {
+      return this.defaultBlockState().setValue(FACING, p_196258_1_.getNearestLookingDirection().getOpposite()).setValue(EXTENDED, Boolean.valueOf(false));
    }
    
-   private void checkIfExtend(World worldIn, BlockPos pos, BlockState state) {
-      Direction direction = state.getValue(FACING);
-      boolean flag = this.getNeighborSignal(worldIn, pos, direction);
-      if (flag && !state.getValue(EXTENDED)) {
-         if ((new PistonBlockStructureHelper(worldIn, pos, direction, true)).resolve()) {
-            worldIn.blockEvent(pos, this, 0, direction.get3DDataValue());
+   private void checkIfExtend(World p_176316_1_, BlockPos p_176316_2_, BlockState p_176316_3_) {
+      Direction direction = p_176316_3_.getValue(FACING);
+      boolean flag = this.getNeighborSignal(p_176316_1_, p_176316_2_, direction);
+      if (flag && !p_176316_3_.getValue(EXTENDED)) {
+         if ((new PistonBlockStructureHelper(p_176316_1_, p_176316_2_, direction, true)).resolve()) {
+            p_176316_1_.blockEvent(p_176316_2_, this, 0, direction.get3DDataValue());
          }
-      } else if (!flag && state.getValue(EXTENDED)) {
-         BlockPos blockpos = pos.relative(direction, 2);
-         BlockState blockstate = worldIn.getBlockState(blockpos);
+      } else if (!flag && p_176316_3_.getValue(EXTENDED)) {
+         BlockPos blockpos = p_176316_2_.relative(direction, 2);
+         BlockState blockstate = p_176316_1_.getBlockState(blockpos);
          int i = 1;
          if (blockstate.is(Blocks.MOVING_PISTON) && blockstate.getValue(FACING) == direction) {
-            TileEntity tileentity = worldIn.getBlockEntity(blockpos);
+            TileEntity tileentity = p_176316_1_.getBlockEntity(blockpos);
             if (tileentity instanceof HoneyStickyPistonTileEntity) {
                HoneyStickyPistonTileEntity pistontileentity = (HoneyStickyPistonTileEntity)tileentity;
-               if (pistontileentity.isExtending() && (pistontileentity.getProgress(0.0F) < 0.5F || worldIn.getGameTime() == pistontileentity.getLastTicked() || ((ServerWorld)worldIn).isHandlingTick())) {
+               if (pistontileentity.isExtending() && (pistontileentity.getProgress(0.0F) < 0.5F || p_176316_1_.getGameTime() == pistontileentity.getLastTicked() || ((ServerWorld)p_176316_1_).isHandlingTick())) {
                   i = 2;
                }
             }
          }
 
-         worldIn.blockEvent(pos, this, i, direction.get3DDataValue());
+         p_176316_1_.blockEvent(p_176316_2_, this, i, direction.get3DDataValue());
       }
 
    }
 
-   private boolean getNeighborSignal(World worldIn, BlockPos pos, Direction facing) {
+   private boolean getNeighborSignal(World p_176318_1_, BlockPos p_176318_2_, Direction p_176318_3_) {
       for(Direction direction : Direction.values()) {
-         if (direction != facing && worldIn.hasSignal(pos.relative(direction), direction)) {
+         if (direction != p_176318_3_ && p_176318_1_.hasSignal(p_176318_2_.relative(direction), direction)) {
             return true;
          }
       }
 
-      if (worldIn.hasSignal(pos, Direction.DOWN)) {
+      if (p_176318_1_.hasSignal(p_176318_2_, Direction.DOWN)) {
          return true;
       } else {
-         BlockPos blockpos = pos.above();
+         BlockPos blockpos = p_176318_2_.above();
 
          for(Direction direction1 : Direction.values()) {
-            if (direction1 != Direction.DOWN && worldIn.hasSignal(blockpos.relative(direction1), direction1)) {
+            if (direction1 != Direction.DOWN && p_176318_1_.hasSignal(blockpos.relative(direction1), direction1)) {
                return true;
             }
          }
@@ -119,46 +116,46 @@ public class HoneyStickyPistonBlock extends PistonBlock {
    }
 
    @Override
-   public boolean triggerEvent(BlockState state, World worldIn, BlockPos pos, int id, int param) {
-      Direction direction = state.getValue(FACING);
-      if (!worldIn.isClientSide) {
-         boolean flag = this.getNeighborSignal(worldIn, pos, direction);
-         if (flag && (id == 1 || id == 2)) {
-            worldIn.setBlock(pos, state.setValue(EXTENDED, Boolean.valueOf(true)), 2);
+   public boolean triggerEvent(BlockState p_176318_3_, World p_189539_2_, BlockPos p_189539_3_, int p_189539_4_, int p_189539_5_) {
+      Direction direction = p_176318_3_.getValue(FACING);
+      if (!p_189539_2_.isClientSide) {
+         boolean flag = this.getNeighborSignal(p_189539_2_, p_189539_3_, direction);
+         if (flag && (p_189539_4_ == 1 || p_189539_4_ == 2)) {
+            p_189539_2_.setBlock(p_189539_3_, p_176318_3_.setValue(EXTENDED, Boolean.valueOf(true)), 2);
             return false;
          }
 
-         if (!flag && id == 0) {
+         if (!flag && p_189539_4_ == 0) {
             return false;
          }
       }
 
-      if (id == 0) {
-         if (net.minecraftforge.event.ForgeEventFactory.onPistonMovePre(worldIn, pos, direction, true)) return false;
-         if (!this.moveBlocks(worldIn, pos, direction, true)) {
+      if (p_189539_4_ == 0) {
+         if (net.minecraftforge.event.ForgeEventFactory.onPistonMovePre(p_189539_2_, p_189539_3_, direction, true)) return false;
+         if (!this.moveBlocks(p_189539_2_, p_189539_3_, direction, true)) {
             return false;
          }
 
-         worldIn.setBlock(pos, state.setValue(EXTENDED, Boolean.valueOf(true)), 67);
-         worldIn.playSound((PlayerEntity)null, pos, SoundEvents.PISTON_EXTEND, SoundCategory.BLOCKS, 0.5F, worldIn.random.nextFloat() * 0.25F + 0.6F);
-      } else if (id == 1 || id == 2) {
-         if (net.minecraftforge.event.ForgeEventFactory.onPistonMovePre(worldIn, pos, direction, false)) return false;
-         TileEntity tileentity1 = worldIn.getBlockEntity(pos.relative(direction));
+         p_189539_2_.setBlock(p_189539_3_, p_176318_3_.setValue(EXTENDED, Boolean.valueOf(true)), 67);
+         p_189539_2_.playSound((PlayerEntity)null, p_189539_3_, SoundEvents.PISTON_EXTEND, SoundCategory.BLOCKS, 0.5F, p_189539_2_.random.nextFloat() * 0.25F + 0.6F);
+      } else if (p_189539_4_ == 1 || p_189539_4_ == 2) {
+         if (net.minecraftforge.event.ForgeEventFactory.onPistonMovePre(p_189539_2_, p_189539_3_, direction, false)) return false;
+         TileEntity tileentity1 = p_189539_2_.getBlockEntity(p_189539_3_.relative(direction));
          if (tileentity1 instanceof HoneyStickyPistonTileEntity) {
             ((HoneyStickyPistonTileEntity)tileentity1).finalTick();
          }
 
          BlockState blockstate = Blocks.MOVING_PISTON.defaultBlockState().setValue(MovingPistonBlock.FACING, direction).setValue(MovingPistonBlock.TYPE, PistonType.STICKY);
-         worldIn.setBlock(pos, blockstate, 20);
-         worldIn.setBlockEntity(pos, new HoneyStickyPistonTileEntity(this.defaultBlockState().setValue(FACING, Direction.from3DDataValue(param & 7)), direction, false, true));
-         worldIn.blockUpdated(pos, blockstate.getBlock());
-         blockstate.updateNeighbourShapes(worldIn, pos, 2);
+         p_189539_2_.setBlock(p_189539_3_, blockstate, 20);
+         p_189539_2_.setBlockEntity(p_189539_3_, new HoneyStickyPistonTileEntity(this.defaultBlockState().setValue(FACING, Direction.from3DDataValue(p_189539_5_ & 7)), direction, false, true));
+         p_189539_2_.blockUpdated(p_189539_3_, blockstate.getBlock());
+         blockstate.updateNeighbourShapes(p_189539_2_, p_189539_3_, 2);
          if (this.isSticky) {
-            BlockPos blockpos = pos.offset(direction.getStepX() * 2, direction.getStepY() * 2, direction.getStepZ() * 2);
-            BlockState blockstate1 = worldIn.getBlockState(blockpos);
+            BlockPos blockpos = p_189539_3_.offset(direction.getStepX() * 2, direction.getStepY() * 2, direction.getStepZ() * 2);
+            BlockState blockstate1 = p_189539_2_.getBlockState(blockpos);
             boolean flag1 = false;
             if (blockstate1.is(Blocks.MOVING_PISTON)) {
-               TileEntity tileentity = worldIn.getBlockEntity(blockpos);
+               TileEntity tileentity = p_189539_2_.getBlockEntity(blockpos);
                if (tileentity instanceof HoneyStickyPistonTileEntity) {
                   HoneyStickyPistonTileEntity pistontileentity = (HoneyStickyPistonTileEntity)tileentity;
                   if (pistontileentity.getDirection() == direction && pistontileentity.isExtending()) {
@@ -169,67 +166,67 @@ public class HoneyStickyPistonBlock extends PistonBlock {
             }
 
             if (!flag1) {
-               if (id != 1 || blockstate1.isAir() || !isPushable(blockstate1, worldIn, blockpos, direction.getOpposite(), false, direction) || blockstate1.getPistonPushReaction() != PushReaction.NORMAL && !blockstate1.is(Blocks.PISTON) && !blockstate1.is(Blocks.STICKY_PISTON) && !blockstate1.is(ModBlocks.HONEY_STICKY_PISTON.get())) {
-                  worldIn.removeBlock(pos.relative(direction), false);
+               if (p_189539_4_ != 1 || blockstate1.isAir() || !isPushable(blockstate1, p_189539_2_, blockpos, direction.getOpposite(), false, direction) || blockstate1.getPistonPushReaction() != PushReaction.NORMAL && !blockstate1.is(Blocks.PISTON) && !blockstate1.is(Blocks.STICKY_PISTON) && !blockstate1.is(ModBlocks.HONEY_STICKY_PISTON.get())) {
+                  p_189539_2_.removeBlock(p_189539_3_.relative(direction), false);
                } else {
-                  this.moveBlocks(worldIn, pos, direction, false);
+                  this.moveBlocks(p_189539_2_, p_189539_3_, direction, false);
                }
             }
          } else {
-            worldIn.removeBlock(pos.relative(direction), false);
+            p_189539_2_.removeBlock(p_189539_3_.relative(direction), false);
          }
 
-         worldIn.playSound((PlayerEntity)null, pos, SoundEvents.PISTON_CONTRACT, SoundCategory.BLOCKS, 0.5F, worldIn.random.nextFloat() * 0.15F + 0.6F);
-	      }
+         p_189539_2_.playSound((PlayerEntity)null, p_189539_3_, SoundEvents.PISTON_CONTRACT, SoundCategory.BLOCKS, 0.5F, p_189539_2_.random.nextFloat() * 0.15F + 0.6F);
+      }
 
-      net.minecraftforge.event.ForgeEventFactory.onPistonMovePost(worldIn, pos, direction, (id == 0));
+      net.minecraftforge.event.ForgeEventFactory.onPistonMovePost(p_189539_2_, p_189539_3_, direction, (p_189539_4_ == 0));
       return true;
    }
    //Static method weirdness? might need to remove because it's not polymorphic
-   public static boolean isPushable(BlockState blockStateIn, World worldIn, BlockPos pos, Direction facing, boolean destroyBlocks, Direction direction) {
-	      if (pos.getY() >= 0 && pos.getY() <= worldIn.getMaxBuildHeight() - 1 && worldIn.getWorldBorder().isWithinBounds(pos)) {
-	         if (blockStateIn.isAir()) {
-	            return true;
-	         } else if (!blockStateIn.is(Blocks.OBSIDIAN) && !blockStateIn.is(Blocks.CRYING_OBSIDIAN) && !blockStateIn.is(Blocks.RESPAWN_ANCHOR)) {
-	            if (facing == Direction.DOWN && pos.getY() == 0) {
-	               return false;
-	            } else if (facing == Direction.UP && pos.getY() == worldIn.getMaxBuildHeight() - 1) {
-	               return false;
-	            } else {
-	               if (!blockStateIn.is(Blocks.PISTON) && !blockStateIn.is(Blocks.STICKY_PISTON) && !blockStateIn.is(ModBlocks.HONEY_STICKY_PISTON.get())) {
-	                  if (blockStateIn.getDestroySpeed(worldIn, pos) == -1.0F) {
-	                     return false;
-	                  }
+   public static boolean isPushable(BlockState p_185646_0_, World p_185646_1_, BlockPos p_185646_2_, Direction p_185646_3_, boolean p_185646_4_, Direction p_185646_5_) {
+      if (p_185646_2_.getY() >= 0 && p_185646_2_.getY() <= p_185646_1_.getMaxBuildHeight() - 1 && p_185646_1_.getWorldBorder().isWithinBounds(p_185646_2_)) {
+         if (p_185646_0_.isAir()) {
+            return true;
+         } else if (!p_185646_0_.is(Blocks.OBSIDIAN) && !p_185646_0_.is(Blocks.CRYING_OBSIDIAN) && !p_185646_0_.is(Blocks.RESPAWN_ANCHOR)) {
+            if (p_185646_3_ == Direction.DOWN && p_185646_2_.getY() == 0) {
+               return false;
+            } else if (p_185646_3_ == Direction.UP && p_185646_2_.getY() == p_185646_1_.getMaxBuildHeight() - 1) {
+               return false;
+            } else {
+               if (!p_185646_0_.is(Blocks.PISTON) && !p_185646_0_.is(Blocks.STICKY_PISTON) && !p_185646_0_.is(ModBlocks.HONEY_STICKY_PISTON.get())) {
+                  if (p_185646_0_.getDestroySpeed(p_185646_1_, p_185646_2_) == -1.0F) {
+                     return false;
+                  }
 
-	                  switch(blockStateIn.getPistonPushReaction()) {
-	                  case BLOCK:
-	                     return false;
-	                  case DESTROY:
-	                     return destroyBlocks;
-	                  case PUSH_ONLY:
-	                     return facing == direction;
-	                  }
-	               } else if (blockStateIn.getValue(EXTENDED)) {
-	                  return false;
-	               }
+                  switch(p_185646_0_.getPistonPushReaction()) {
+                  case BLOCK:
+                     return false;
+                  case DESTROY:
+                     return p_185646_4_;
+                  case PUSH_ONLY:
+                     return p_185646_3_ == p_185646_5_;
+                  }
+               } else if (p_185646_0_.getValue(EXTENDED)) {
+                  return false;
+               }
 
-	               return !blockStateIn.hasTileEntity();
-	            }
-	         } else {
-	            return false;
-	         }
-	      } else {
-	         return false;
-	      }
-	   }
+               return !p_185646_0_.hasTileEntity();
+            }
+         } else {
+            return false;
+         }
+      } else {
+         return false;
+      }
+   }
    
-   private boolean moveBlocks(World worldIn, BlockPos pos, Direction directionIn, boolean extending) {
-      BlockPos blockpos = pos.relative(directionIn);
-      if (!extending && worldIn.getBlockState(blockpos).is(ModBlocks.HONEY_STICKY_PISTON_HEAD.get())) {
-         worldIn.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 20);
+   private boolean moveBlocks(World p_176319_1_, BlockPos p_176319_2_, Direction p_176319_3_, boolean p_176319_4_) {
+      BlockPos blockpos = p_176319_2_.relative(p_176319_3_);
+      if (!p_176319_4_ && p_176319_1_.getBlockState(blockpos).is(ModBlocks.HONEY_STICKY_PISTON_HEAD.get())) {
+         p_176319_1_.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 20);
       }
 
-      PistonBlockStructureHelper pistonblockstructurehelper = new PistonBlockStructureHelper(worldIn, pos, directionIn, extending);
+      PistonBlockStructureHelper pistonblockstructurehelper = new PistonBlockStructureHelper(p_176319_1_, p_176319_2_, p_176319_3_, p_176319_4_);
       if (!pistonblockstructurehelper.resolve()) {
          return false;
       } else {
@@ -239,56 +236,56 @@ public class HoneyStickyPistonBlock extends PistonBlock {
 
          for(int i = 0; i < list.size(); ++i) {
             BlockPos blockpos1 = list.get(i);
-            BlockState blockstate = worldIn.getBlockState(blockpos1);
+            BlockState blockstate = p_176319_1_.getBlockState(blockpos1);
             list1.add(blockstate);
             map.put(blockpos1, blockstate);
          }
 
          List<BlockPos> list2 = pistonblockstructurehelper.getToDestroy();
          BlockState[] ablockstate = new BlockState[list.size() + list2.size()];
-         Direction direction = extending ? directionIn : directionIn.getOpposite();
+         Direction direction = p_176319_4_ ? p_176319_3_ : p_176319_3_.getOpposite();
          int j = 0;
 
          for(int k = list2.size() - 1; k >= 0; --k) {
             BlockPos blockpos2 = list2.get(k);
-            BlockState blockstate1 = worldIn.getBlockState(blockpos2);
-            TileEntity tileentity = blockstate1.hasTileEntity() ? worldIn.getBlockEntity(blockpos2) : null;
-            dropResources(blockstate1, worldIn, blockpos2, tileentity);
-            worldIn.setBlock(blockpos2, Blocks.AIR.defaultBlockState(), 18);
+            BlockState blockstate1 = p_176319_1_.getBlockState(blockpos2);
+            TileEntity tileentity = blockstate1.hasTileEntity() ? p_176319_1_.getBlockEntity(blockpos2) : null;
+            dropResources(blockstate1, p_176319_1_, blockpos2, tileentity);
+            p_176319_1_.setBlock(blockpos2, Blocks.AIR.defaultBlockState(), 18);
             ablockstate[j++] = blockstate1;
          }
 
          for(int l = list.size() - 1; l >= 0; --l) {
             BlockPos blockpos3 = list.get(l);
-            BlockState blockstate5 = worldIn.getBlockState(blockpos3);
+            BlockState blockstate5 = p_176319_1_.getBlockState(blockpos3);
             blockpos3 = blockpos3.relative(direction);
             map.remove(blockpos3);
-            worldIn.setBlock(blockpos3, Blocks.MOVING_PISTON.defaultBlockState().setValue(FACING, directionIn), 68);
-            worldIn.setBlockEntity(blockpos3, new HoneyStickyPistonTileEntity(list1.get(l), directionIn, extending, false));
+            p_176319_1_.setBlock(blockpos3, Blocks.MOVING_PISTON.defaultBlockState().setValue(FACING, p_176319_3_), 68);
+            p_176319_1_.setBlockEntity(blockpos3, new HoneyStickyPistonTileEntity(list1.get(l), p_176319_3_, p_176319_4_, false));
             ablockstate[j++] = blockstate5;
          }
 
-         if (extending) {
+         if (p_176319_4_) {
             PistonType pistontype = PistonType.STICKY;
-            BlockState blockstate4 = ModBlocks.HONEY_STICKY_PISTON_HEAD.get().defaultBlockState().setValue(HoneyStickyPistonHeadBlock.FACING, directionIn).setValue(HoneyStickyPistonHeadBlock.TYPE, pistontype);
-            BlockState blockstate6 = Blocks.MOVING_PISTON.defaultBlockState().setValue(MovingPistonBlock.FACING, directionIn).setValue(MovingPistonBlock.TYPE, PistonType.STICKY);
+            BlockState blockstate4 = ModBlocks.HONEY_STICKY_PISTON_HEAD.get().defaultBlockState().setValue(HoneyStickyPistonHeadBlock.FACING, p_176319_3_).setValue(HoneyStickyPistonHeadBlock.TYPE, pistontype);
+            BlockState blockstate6 = Blocks.MOVING_PISTON.defaultBlockState().setValue(MovingPistonBlock.FACING, p_176319_3_).setValue(MovingPistonBlock.TYPE, PistonType.STICKY);
             map.remove(blockpos);
-            worldIn.setBlock(blockpos, blockstate6, 68);
-            worldIn.setBlockEntity(blockpos, new HoneyStickyPistonTileEntity(blockstate4, directionIn, true, true));
+            p_176319_1_.setBlock(blockpos, blockstate6, 68);
+            p_176319_1_.setBlockEntity(blockpos, new HoneyStickyPistonTileEntity(blockstate4, p_176319_3_, true, true));
          }
 
          BlockState blockstate3 = Blocks.AIR.defaultBlockState();
 
          for(BlockPos blockpos4 : map.keySet()) {
-            worldIn.setBlock(blockpos4, blockstate3, 82);
+            p_176319_1_.setBlock(blockpos4, blockstate3, 82);
          }
 
          for(Entry<BlockPos, BlockState> entry : map.entrySet()) {
             BlockPos blockpos5 = entry.getKey();
             BlockState blockstate2 = entry.getValue();
-            blockstate2.updateIndirectNeighbourShapes(worldIn, blockpos5, 2);
-            blockstate3.updateNeighbourShapes(worldIn, blockpos5, 2);
-            blockstate3.updateIndirectNeighbourShapes(worldIn, blockpos5, 2);
+            blockstate2.updateIndirectNeighbourShapes(p_176319_1_, blockpos5, 2);
+            blockstate3.updateNeighbourShapes(p_176319_1_, blockpos5, 2);
+            blockstate3.updateIndirectNeighbourShapes(p_176319_1_, blockpos5, 2);
          }
 
          j = 0;
@@ -296,16 +293,16 @@ public class HoneyStickyPistonBlock extends PistonBlock {
          for(int i1 = list2.size() - 1; i1 >= 0; --i1) {
             BlockState blockstate7 = ablockstate[j++];
             BlockPos blockpos6 = list2.get(i1);
-            blockstate7.updateIndirectNeighbourShapes(worldIn, blockpos6, 2);
-            worldIn.updateNeighborsAt(blockpos6, blockstate7.getBlock());
+            blockstate7.updateIndirectNeighbourShapes(p_176319_1_, blockpos6, 2);
+            p_176319_1_.updateNeighborsAt(blockpos6, blockstate7.getBlock());
          }
 
          for(int j1 = list.size() - 1; j1 >= 0; --j1) {
-            worldIn.updateNeighborsAt(list.get(j1), ablockstate[j++].getBlock());
+            p_176319_1_.updateNeighborsAt(list.get(j1), ablockstate[j++].getBlock());
          }
 
-         if (extending) {
-            worldIn.updateNeighborsAt(blockpos, ModBlocks.HONEY_STICKY_PISTON_HEAD.get());
+         if (p_176319_4_) {
+            p_176319_1_.updateNeighborsAt(blockpos, ModBlocks.HONEY_STICKY_PISTON_HEAD.get());
          }
 
          return true;
