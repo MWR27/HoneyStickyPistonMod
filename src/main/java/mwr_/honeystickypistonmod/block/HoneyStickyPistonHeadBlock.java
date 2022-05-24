@@ -89,7 +89,6 @@ public class HoneyStickyPistonHeadBlock extends PistonHeadBlock {
       return this.isFittingBase(p_60288_, blockstate) || blockstate.is(ModBlocks.MOVING_HONEY_STICKY_PISTON.get()) && blockstate.getValue(FACING) == p_60288_.getValue(FACING);
    }
    
-   @Override
    public ItemStack getCloneItemStack(BlockGetter worldIn, BlockPos pos, BlockState state) {
       return new ItemStack(ModBlocks.HONEY_STICKY_PISTON.get());
    }
