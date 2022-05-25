@@ -11,8 +11,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 @Mod.EventBusSubscriber(modid = HoneyStickyPistonMod.MOD_ID, bus = Bus.MOD, value = Dist.CLIENT)
 public class ClientEventBusSubscriber {
 
-	@SubscribeEvent
-	public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-		event.registerBlockEntityRenderer(ModBlockEntityType.HONEY_STICKY_PISTON.get(), HoneyStickyPistonHeadRenderer::new);
+   @SubscribeEvent
+   public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+      event.registerBlockEntityRenderer(ModBlockEntityType.HONEY_STICKY_PISTON.get(), HoneyStickyPistonHeadRenderer::new);
 	}
 }
