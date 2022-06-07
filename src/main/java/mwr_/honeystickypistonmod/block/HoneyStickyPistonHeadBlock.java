@@ -32,19 +32,19 @@ public class HoneyStickyPistonHeadBlock extends PistonHeadBlock {
 
    private static VoxelShape calculateShape(Direction p_60310_, boolean p_60311_) {
       switch(p_60310_) {
-      case DOWN:
-      default:
-         return Shapes.or(DOWN_AABB, p_60311_ ? SHORT_DOWN_ARM_AABB : DOWN_ARM_AABB);
-      case UP:
-         return Shapes.or(UP_AABB, p_60311_ ? SHORT_UP_ARM_AABB : UP_ARM_AABB);
-      case NORTH:
-         return Shapes.or(NORTH_AABB, p_60311_ ? SHORT_NORTH_ARM_AABB : NORTH_ARM_AABB);
-      case SOUTH:
-         return Shapes.or(SOUTH_AABB, p_60311_ ? SHORT_SOUTH_ARM_AABB : SOUTH_ARM_AABB);
-      case WEST:
-         return Shapes.or(WEST_AABB, p_60311_ ? SHORT_WEST_ARM_AABB : WEST_ARM_AABB);
-      case EAST:
-         return Shapes.or(EAST_AABB, p_60311_ ? SHORT_EAST_ARM_AABB : EAST_ARM_AABB);
+         case DOWN:
+         default:
+            return Shapes.or(DOWN_AABB, p_60311_ ? SHORT_DOWN_ARM_AABB : DOWN_ARM_AABB);
+         case UP:
+            return Shapes.or(UP_AABB, p_60311_ ? SHORT_UP_ARM_AABB : UP_ARM_AABB);
+         case NORTH:
+            return Shapes.or(NORTH_AABB, p_60311_ ? SHORT_NORTH_ARM_AABB : NORTH_ARM_AABB);
+         case SOUTH:
+            return Shapes.or(SOUTH_AABB, p_60311_ ? SHORT_SOUTH_ARM_AABB : SOUTH_ARM_AABB);
+         case WEST:
+            return Shapes.or(WEST_AABB, p_60311_ ? SHORT_WEST_ARM_AABB : WEST_ARM_AABB);
+         case EAST:
+            return Shapes.or(EAST_AABB, p_60311_ ? SHORT_EAST_ARM_AABB : EAST_ARM_AABB);
       }
    }
 

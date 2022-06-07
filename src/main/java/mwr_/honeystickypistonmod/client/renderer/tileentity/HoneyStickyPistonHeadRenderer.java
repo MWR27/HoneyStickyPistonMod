@@ -1,7 +1,5 @@
 package mwr_.honeystickypistonmod.client.renderer.tileentity;
 
-import java.util.Random;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -17,6 +15,7 @@ import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -69,7 +68,7 @@ public class HoneyStickyPistonHeadRenderer implements BlockEntityRenderer<HoneyS
       if(false) {
       RenderType rendertype = ItemBlockRenderTypes.getMovingBlockRenderType(p_112460_);
       VertexConsumer vertexconsumer = p_112462_.getBuffer(rendertype);
-      this.blockRenderer.getModelRenderer().tesselateBlock(p_112463_, this.blockRenderer.getBlockModel(p_112460_), p_112460_, p_112459_, p_112461_, vertexconsumer, p_112464_, new Random(), p_112460_.getSeed(p_112459_), p_112465_);
+      this.blockRenderer.getModelRenderer().tesselateBlock(p_112463_, this.blockRenderer.getBlockModel(p_112460_), p_112460_, p_112459_, p_112461_, vertexconsumer, p_112464_, RandomSource.create(), p_112460_.getSeed(p_112459_), p_112465_);
       }
    }
 

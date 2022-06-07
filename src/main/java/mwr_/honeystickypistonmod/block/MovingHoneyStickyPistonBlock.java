@@ -57,8 +57,8 @@ public class MovingHoneyStickyPistonBlock extends BaseEntityBlock {
 
    @Nullable
    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_155875_, BlockState p_155876_, BlockEntityType<T> p_155877_) {
-	      return createTickerHelper(p_155877_, (BlockEntityType)ModBlockEntityType.HONEY_STICKY_PISTON.get(), HoneyStickyPistonMovingBlockEntity::tick);
-	   }
+      return createTickerHelper(p_155877_, (BlockEntityType)ModBlockEntityType.HONEY_STICKY_PISTON.get(), HoneyStickyPistonMovingBlockEntity::tick);
+   }
 
    public void onRemove(BlockState p_60077_, Level p_60078_, BlockPos p_60079_, BlockState p_60080_, boolean p_60081_) {
       if (!p_60077_.is(p_60080_.getBlock())) {

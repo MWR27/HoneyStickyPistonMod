@@ -131,15 +131,15 @@ public class HoneyStickyPistonMovingBlockEntity extends BlockEntity {
                         double d1 = vec3.x;
                         double d2 = vec3.y;
                         double d3 = vec3.z;
-                        switch(direction.getAxis()) {
-                        case X:
-                           d1 = (double)direction.getStepX();
-                           break;
-                        case Y:
-                           d2 = (double)direction.getStepY();
-                           break;
-                        case Z:
-                           d3 = (double)direction.getStepZ();
+                        switch (direction.getAxis()) {
+                           case X:
+                              d1 = (double)direction.getStepX();
+                              break;
+                           case Y:
+                              d2 = (double)direction.getStepY();
+                              break;
+                           case Z:
+                              d3 = (double)direction.getStepZ();
                         }
 
                         entity.setDeltaMovement(d1, d2, d3);
@@ -210,20 +210,20 @@ public class HoneyStickyPistonMovingBlockEntity extends BlockEntity {
    }
 
    private static double getMovement(AABB p_60368_, Direction p_60369_, AABB p_60370_) {
-      switch(p_60369_) {
-      case EAST:
-         return p_60368_.maxX - p_60370_.minX;
-      case WEST:
-         return p_60370_.maxX - p_60368_.minX;
-      case UP:
-      default:
-         return p_60368_.maxY - p_60370_.minY;
-      case DOWN:
-         return p_60370_.maxY - p_60368_.minY;
-      case SOUTH:
-         return p_60368_.maxZ - p_60370_.minZ;
-      case NORTH:
-         return p_60370_.maxZ - p_60368_.minZ;
+      switch (p_60369_) {
+         case EAST:
+            return p_60368_.maxX - p_60370_.minX;
+         case WEST:
+            return p_60370_.maxX - p_60368_.minX;
+         case UP:
+         default:
+            return p_60368_.maxY - p_60370_.minY;
+         case DOWN:
+            return p_60370_.maxY - p_60368_.minY;
+         case SOUTH:
+            return p_60368_.maxZ - p_60370_.minZ;
+         case NORTH:
+            return p_60370_.maxZ - p_60368_.minZ;
       }
    }
 
@@ -281,7 +281,7 @@ public class HoneyStickyPistonMovingBlockEntity extends BlockEntity {
          } else {
             p_155916_.removeBlockEntity(p_155917_);
             p_155919_.setRemoved();
-            if (p_155919_.movedState != null && p_155916_.getBlockState(p_155917_).is(ModBlocks.MOVING_HONEY_STICKY_PISTON.get())) {
+            if (p_155916_.getBlockState(p_155917_).is(ModBlocks.MOVING_HONEY_STICKY_PISTON.get())) {
                BlockState blockstate = Block.updateFromNeighbourShapes(p_155919_.movedState, p_155916_, p_155917_);
                if (blockstate.isAir()) {
                   p_155916_.setBlock(p_155917_, p_155919_.movedState, 84);
@@ -326,11 +326,11 @@ public class HoneyStickyPistonMovingBlockEntity extends BlockEntity {
       p_187530_.putFloat("progress", this.progressO);
       p_187530_.putBoolean("extending", this.extending);
       p_187530_.putBoolean("source", this.isSourcePiston);
-	   }
+   }
 
    public VoxelShape getCollisionShape(BlockGetter p_60357_, BlockPos p_60358_) {
       VoxelShape voxelshape;
-      if (!this.extending && this.isSourcePiston) {
+      if (!this.extending && this.isSourcePiston && this.movedState.getBlock() instanceof HoneyStickyPistonBaseBlock) {
          voxelshape = this.movedState.setValue(HoneyStickyPistonBaseBlock.EXTENDED, Boolean.valueOf(true)).getCollisionShape(p_60357_, p_60358_);
       } else {
          voxelshape = Shapes.empty();

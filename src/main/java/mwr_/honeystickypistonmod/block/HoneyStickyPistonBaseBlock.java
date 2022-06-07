@@ -2,8 +2,6 @@ package mwr_.honeystickypistonmod.block;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -14,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -131,7 +130,7 @@ public class HoneyStickyPistonBaseBlock extends PistonBaseBlock {
 
          p_60193_.setBlock(p_60194_, p_60192_.setValue(EXTENDED, Boolean.valueOf(true)), 67);
          p_60193_.playSound((Player)null, p_60194_, SoundEvents.PISTON_EXTEND, SoundSource.BLOCKS, 0.5F, p_60193_.random.nextFloat() * 0.25F + 0.6F);
-         p_60193_.gameEvent(GameEvent.PISTON_EXTEND, p_60194_);
+         p_60193_.gameEvent((Entity)null, GameEvent.PISTON_EXTEND, p_60194_);
       } else if (p_60195_ == 1 || p_60195_ == 2) {
          if (net.minecraftforge.event.ForgeEventFactory.onPistonMovePre(p_60193_, p_60194_, direction, false)) return false;
          BlockEntity blockentity1 = p_60193_.getBlockEntity(p_60194_.relative(direction));
@@ -171,7 +170,7 @@ public class HoneyStickyPistonBaseBlock extends PistonBaseBlock {
          }
 
          p_60193_.playSound((Player)null, p_60194_, SoundEvents.PISTON_CONTRACT, SoundSource.BLOCKS, 0.5F, p_60193_.random.nextFloat() * 0.15F + 0.6F);
-         p_60193_.gameEvent(GameEvent.PISTON_CONTRACT, p_60194_);
+         p_60193_.gameEvent((Entity)null, GameEvent.PISTON_CONTRACT, p_60194_);
       }
 
       net.minecraftforge.event.ForgeEventFactory.onPistonMovePost(p_60193_, p_60194_, direction, (p_60195_ == 0));
@@ -193,13 +192,13 @@ public class HoneyStickyPistonBaseBlock extends PistonBaseBlock {
                      return false;
                   }
 
-                  switch(p_60205_.getPistonPushReaction()) {
-                  case BLOCK:
-                     return false;
-                  case DESTROY:
-                     return p_60209_;
-                  case PUSH_ONLY:
-                     return p_60208_ == p_60210_;
+                  switch (p_60205_.getPistonPushReaction()) {
+                     case BLOCK:
+                        return false;
+                     case DESTROY:
+                        return p_60209_;
+                     case PUSH_ONLY:
+                        return p_60208_ == p_60210_;
                   }
                } else if (p_60205_.getValue(EXTENDED)) {
                   return false;
@@ -247,6 +246,7 @@ public class HoneyStickyPistonBaseBlock extends PistonBaseBlock {
             BlockEntity blockentity = blockstate1.hasBlockEntity() ? p_60182_.getBlockEntity(blockpos2) : null;
             dropResources(blockstate1, p_60182_, blockpos2, blockentity);
             p_60182_.setBlock(blockpos2, Blocks.AIR.defaultBlockState(), 18);
+            p_60182_.gameEvent(GameEvent.BLOCK_DESTROY, blockpos2, GameEvent.Context.of(blockstate1));
             if (!blockstate1.is(BlockTags.FIRE)) {
                p_60182_.addDestroyBlockEffect(blockpos2, blockstate1);
             }
@@ -280,7 +280,7 @@ public class HoneyStickyPistonBaseBlock extends PistonBaseBlock {
             p_60182_.setBlock(blockpos4, blockstate3, 82);
          }
 
-         for(Entry<BlockPos, BlockState> entry : map.entrySet()) {
+         for(Map.Entry<BlockPos, BlockState> entry : map.entrySet()) {
             BlockPos blockpos5 = entry.getKey();
             BlockState blockstate2 = entry.getValue();
             blockstate2.updateIndirectNeighbourShapes(p_60182_, blockpos5, 2);
