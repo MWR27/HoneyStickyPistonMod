@@ -2,7 +2,6 @@
   "replace": false,
   "values": [
     "honeystickypistonmod:honey_sticky_piston",
-    "honeystickypistonmod:honey_sticky_piston_head",
-    "minecraft:polished_granite"
+    "honeystickypistonmod:honey_sticky_piston_head"
   ]
 }
