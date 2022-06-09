@@ -182,7 +182,7 @@ public class HoneyStickyPistonBlock extends PistonBlock {
       net.minecraftforge.event.ForgeEventFactory.onPistonMovePost(p_189539_2_, p_189539_3_, direction, (p_189539_4_ == 0));
       return true;
    }
-   //Static method weirdness? might need to remove because it's not polymorphic
+
    public static boolean isPushable(BlockState p_185646_0_, World p_185646_1_, BlockPos p_185646_2_, Direction p_185646_3_, boolean p_185646_4_, Direction p_185646_5_) {
       if (p_185646_2_.getY() >= 0 && p_185646_2_.getY() <= p_185646_1_.getMaxBuildHeight() - 1 && p_185646_1_.getWorldBorder().isWithinBounds(p_185646_2_)) {
          if (p_185646_0_.isAir()) {

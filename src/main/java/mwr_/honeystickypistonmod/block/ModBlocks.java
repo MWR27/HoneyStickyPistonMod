@@ -16,7 +16,7 @@ public class ModBlocks {
    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, HoneyStickyPistonMod.MOD_ID);
 
    public static final RegistryObject<Block> HONEY_STICKY_PISTON = BLOCKS.register("honey_sticky_piston", () -> honeyStickyPistonBase(true));
-   public static final RegistryObject<Block> HONEY_STICKY_PISTON_HEAD = BLOCKS.register("honey_sticky_piston_head", () -> new HoneyStickyPistonHeadBlock(AbstractBlock.Properties.of(Material.PISTON).strength(1.5F).noDrops()));
+   public static final RegistryObject<Block> HONEY_STICKY_PISTON_HEAD = BLOCKS.register("honey_sticky_piston_head", () -> new HoneyStickyPistonHeadBlock(AbstractBlock.Properties.of(Material.PISTON).strength(1.5F).noDrops().harvestTool(ToolType.PICKAXE)));
    
    private static boolean never(BlockState p_235436_0_, IBlockReader p_235436_1_, BlockPos p_235436_2_) {
       return false;
@@ -26,6 +26,6 @@ public class ModBlocks {
       AbstractBlock.IPositionPredicate abstractblock$ipositionpredicate = (p_235440_0_, p_235440_1_, p_235440_2_) -> {
          return !p_235440_0_.getValue(HoneyStickyPistonBlock.EXTENDED);
       };
-      return new HoneyStickyPistonBlock(p_235432_0_, AbstractBlock.Properties.of(Material.PISTON).strength(1.5F).harvestTool(ToolType.PICKAXE).isRedstoneConductor(ModBlocks::never).isSuffocating(abstractblock$ipositionpredicate).isViewBlocking(abstractblock$ipositionpredicate));
+      return new HoneyStickyPistonBlock(p_235432_0_, AbstractBlock.Properties.of(Material.PISTON).strength(1.5F).isRedstoneConductor(ModBlocks::never).isSuffocating(abstractblock$ipositionpredicate).isViewBlocking(abstractblock$ipositionpredicate).harvestTool(ToolType.PICKAXE));
    }	
 }
