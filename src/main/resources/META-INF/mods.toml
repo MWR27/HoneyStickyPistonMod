@@ -1,16 +1,16 @@
 modLoader="javafml"
 loaderVersion="[41,)"
 license="MIT"
+issueTrackerURL="https://github.com/MWR27/HoneyStickyPistonMod/issues"
 [[mods]]
 modId="honeystickypistonmod"
 version="${file.jarVersion}"
 displayName="Honey Sticky Piston Mod"
-logoFile="examplemod.png"
+logoFile="logo.png"
 credits="Thanks to Cy4 and their community for teaching me how to mod, samjviana for a helpful reference, and Firestorm2173 for the idea!"
 authors="MWR_"
 description='''
-A new sticky piston that you can craft with honey!
-'''
+A new sticky piston that you can craft with honey!'''
 [[dependencies.honeystickypistonmod]]
     modId="forge"
     mandatory=true
