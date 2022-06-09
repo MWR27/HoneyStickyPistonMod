@@ -16,7 +16,7 @@ public class ModBlocks {
 
    public static final RegistryObject<Block> HONEY_STICKY_PISTON = BLOCKS.register("honey_sticky_piston", () -> honeyStickyPistonBase(true));
    public static final RegistryObject<Block> HONEY_STICKY_PISTON_HEAD = BLOCKS.register("honey_sticky_piston_head", () -> new HoneyStickyPistonHeadBlock(BlockBehaviour.Properties.of(Material.PISTON).strength(1.5F).noDrops()));
-   public static final RegistryObject<Block> MOVING_HONEY_STICKY_PISTON = BLOCKS.register("moving_piston", () -> new MovingHoneyStickyPistonBlock(BlockBehaviour.Properties.of(Material.PISTON).strength(-1.0F).dynamicShape().noDrops().noOcclusion().isRedstoneConductor(ModBlocks::never).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never)));
+   public static final RegistryObject<Block> MOVING_HONEY_STICKY_PISTON = BLOCKS.register("moving_honey_sticky_piston", () -> new MovingHoneyStickyPistonBlock(BlockBehaviour.Properties.of(Material.PISTON).strength(-1.0F).dynamicShape().noDrops().noOcclusion().isRedstoneConductor(ModBlocks::never).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never)));
 
    private static boolean never(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
 	   return false;
