@@ -14,27 +14,19 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModBlocks {
-	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
-			HoneyStickyPistonMod.MOD_ID);
-	
-	   private static boolean isntSolid(BlockState state, IBlockReader reader, BlockPos pos) {
-		      return false;
-		   }
+   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, HoneyStickyPistonMod.MOD_ID);
 
-	   private static HoneyStickyPistonBlock createHoneyStickyPiston(boolean sticky) {
-		      AbstractBlock.IPositionPredicate abstractblock$ipositionpredicate = (state, reader, pos) -> {
-		         return !state.get(PistonBlock.EXTENDED);
-		      };
-		      return new HoneyStickyPistonBlock(sticky, AbstractBlock.Properties.create(Material.PISTON).hardnessAndResistance(1.5F).harvestTool(ToolType.PICKAXE).setOpaque(ModBlocks::isntSolid).setSuffocates(abstractblock$ipositionpredicate).setBlocksVision(abstractblock$ipositionpredicate));
-		   }
-		
-		
-		public static final RegistryObject<Block> HONEY_STICKY_PISTON = BLOCKS
-				.register("honey_sticky_piston",
-						() -> createHoneyStickyPiston(true));
-		
-		public static final RegistryObject<Block> HONEY_STICKY_PISTON_HEAD = BLOCKS
-				.register("honey_sticky_piston_head",
-						() -> new HoneyStickyPistonHeadBlock(AbstractBlock.Properties.create(Material.PISTON).hardnessAndResistance(1.5F).noDrops()));
-		
+   public static final RegistryObject<Block> HONEY_STICKY_PISTON = BLOCKS.register("honey_sticky_piston", () -> createHoneyStickyPiston(true));	
+   public static final RegistryObject<Block> HONEY_STICKY_PISTON_HEAD = BLOCKS.register("honey_sticky_piston_head", () -> new HoneyStickyPistonHeadBlock(AbstractBlock.Properties.create(Material.PISTON).hardnessAndResistance(1.5F).noDrops().harvestTool(ToolType.PICKAXE)));
+
+   private static boolean isntSolid(BlockState state, IBlockReader reader, BlockPos pos) {
+	      return false;
+   }
+
+   private static HoneyStickyPistonBlock createHoneyStickyPiston(boolean sticky) {
+      AbstractBlock.IPositionPredicate abstractblock$ipositionpredicate = (state, reader, pos) -> {
+         return !state.get(PistonBlock.EXTENDED);
+      };
+      return new HoneyStickyPistonBlock(sticky, AbstractBlock.Properties.create(Material.PISTON).hardnessAndResistance(1.5F).setOpaque(ModBlocks::isntSolid).setSuffocates(abstractblock$ipositionpredicate).setBlocksVision(abstractblock$ipositionpredicate).harvestTool(ToolType.PICKAXE));
+   }	
 }

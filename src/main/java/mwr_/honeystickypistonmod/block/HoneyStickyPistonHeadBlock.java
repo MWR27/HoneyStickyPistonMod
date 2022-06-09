@@ -51,7 +51,6 @@ public class HoneyStickyPistonHeadBlock extends PistonHeadBlock{
    public HoneyStickyPistonHeadBlock(AbstractBlock.Properties properties) {
       super(properties);
       this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(TYPE, PistonType.STICKY).with(SHORT, Boolean.valueOf(false)));
-
    }
 
    @Override //Nothing changed, yet necessary

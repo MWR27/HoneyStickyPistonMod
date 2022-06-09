@@ -35,7 +35,7 @@ public class HoneyStickyPistonBlock extends PistonBlock {
       super(sticky, properties);
       this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(EXTENDED, Boolean.valueOf(false)));
       this.isSticky = sticky;
-	}
+   }
 
    @Override //Nothing edited, put in for checkForMove()
    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
@@ -178,49 +178,49 @@ public class HoneyStickyPistonBlock extends PistonBlock {
          }
 
          worldIn.playSound((PlayerEntity)null, pos, SoundEvents.BLOCK_PISTON_CONTRACT, SoundCategory.BLOCKS, 0.5F, worldIn.rand.nextFloat() * 0.15F + 0.6F);
-	      }
+      }
 
       net.minecraftforge.event.ForgeEventFactory.onPistonMovePost(worldIn, pos, direction, (id == 0));
       return true;
    }
-   //Static method weirdness? might need to remove because it's not polymorphic
+
    public static boolean canPush(BlockState blockStateIn, World worldIn, BlockPos pos, Direction facing, boolean destroyBlocks, Direction direction) {
-	      if (pos.getY() >= 0 && pos.getY() <= worldIn.getHeight() - 1 && worldIn.getWorldBorder().contains(pos)) {
-	         if (blockStateIn.isAir()) {
-	            return true;
-	         } else if (!blockStateIn.isIn(Blocks.OBSIDIAN) && !blockStateIn.isIn(Blocks.CRYING_OBSIDIAN) && !blockStateIn.isIn(Blocks.RESPAWN_ANCHOR)) {
-	            if (facing == Direction.DOWN && pos.getY() == 0) {
-	               return false;
-	            } else if (facing == Direction.UP && pos.getY() == worldIn.getHeight() - 1) {
-	               return false;
-	            } else {
-	               if (!blockStateIn.isIn(Blocks.PISTON) && !blockStateIn.isIn(Blocks.STICKY_PISTON) && !blockStateIn.isIn(ModBlocks.HONEY_STICKY_PISTON.get())) {
-	                  if (blockStateIn.getBlockHardness(worldIn, pos) == -1.0F) {
-	                     return false;
-	                  }
+      if (pos.getY() >= 0 && pos.getY() <= worldIn.getHeight() - 1 && worldIn.getWorldBorder().contains(pos)) {
+         if (blockStateIn.isAir()) {
+            return true;
+         } else if (!blockStateIn.isIn(Blocks.OBSIDIAN) && !blockStateIn.isIn(Blocks.CRYING_OBSIDIAN) && !blockStateIn.isIn(Blocks.RESPAWN_ANCHOR)) {
+            if (facing == Direction.DOWN && pos.getY() == 0) {
+               return false;
+            } else if (facing == Direction.UP && pos.getY() == worldIn.getHeight() - 1) {
+               return false;
+            } else {
+               if (!blockStateIn.isIn(Blocks.PISTON) && !blockStateIn.isIn(Blocks.STICKY_PISTON) && !blockStateIn.isIn(ModBlocks.HONEY_STICKY_PISTON.get())) {
+                  if (blockStateIn.getBlockHardness(worldIn, pos) == -1.0F) {
+                     return false;
+                  }
 
-	                  switch(blockStateIn.getPushReaction()) {
-	                  case BLOCK:
-	                     return false;
-	                  case DESTROY:
-	                     return destroyBlocks;
-	                  case PUSH_ONLY:
-	                     return facing == direction;
-	                  }
-	               } else if (blockStateIn.get(EXTENDED)) {
-	                  return false;
-	               }
+                  switch(blockStateIn.getPushReaction()) {
+                  case BLOCK:
+                     return false;
+                  case DESTROY:
+                     return destroyBlocks;
+                  case PUSH_ONLY:
+                     return facing == direction;
+                  }
+               } else if (blockStateIn.get(EXTENDED)) {
+                  return false;
+               }
 
-	               return !blockStateIn.hasTileEntity();
-	            }
-	         } else {
-	            return false;
-	         }
-	      } else {
-	         return false;
-	      }
-	   }
-   
+               return !blockStateIn.hasTileEntity();
+            }
+         } else {
+            return false;
+         }
+      } else {
+         return false;
+      }
+   }
+
    private boolean doMove(World worldIn, BlockPos pos, Direction directionIn, boolean extending) {
       BlockPos blockpos = pos.offset(directionIn);
       if (!extending && worldIn.getBlockState(blockpos).isIn(ModBlocks.HONEY_STICKY_PISTON_HEAD.get())) {
@@ -309,7 +309,7 @@ public class HoneyStickyPistonBlock extends PistonBlock {
          return true;
       }
    }
-   
+
    @Override
    public PushReaction getPushReaction(BlockState state) {
       if (state.get(EXTENDED)) {
