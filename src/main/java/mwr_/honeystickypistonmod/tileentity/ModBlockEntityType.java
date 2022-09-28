@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ModBlockEntityType {
-   public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, HoneyStickyPistonMod.MOD_ID);
+   public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, HoneyStickyPistonMod.MOD_ID);
 
-   public static final RegistryObject<BlockEntityType<HoneyStickyPistonMovingBlockEntity>> HONEY_STICKY_PISTON = BLOCK_ENTITIES.register("honey_sticky_piston", () -> BlockEntityType.Builder.of(HoneyStickyPistonMovingBlockEntity::new, ModBlocks.MOVING_HONEY_STICKY_PISTON.get()).build(null));
+   public static final RegistryObject<BlockEntityType<HoneyStickyPistonMovingBlockEntity>> HONEY_STICKY_PISTON = BLOCK_ENTITY_TYPES.register("honey_sticky_piston", () -> BlockEntityType.Builder.of(HoneyStickyPistonMovingBlockEntity::new, ModBlocks.MOVING_HONEY_STICKY_PISTON.get()).build(null));
 }
